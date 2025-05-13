@@ -22,7 +22,7 @@ export const metadata: Metadata = {
       {
         url: "/convite.jpg", // Caminho da imagem na pasta /public
         width: 800,
-        height: 1200, // vertical
+        height: 1400, // vertical
         alt: "Convite do Evento Humberto de Campos",
       },
     ],
