@@ -19,12 +19,13 @@ type Inscricao = {
   observacao: string;
 };
 
-
 export default function Formulario() {
   const router = useRouter();
   const [permitido, setPermitido] = useState(true);
   const [praticas, setPraticas] = useState<Pratica[]>([]);
-  const [inscricoesExistentes, setInscricoesExistentes] = useState<Inscricao[]>([]);
+  const [inscricoesExistentes, setInscricoesExistentes] = useState<Inscricao[]>(
+    []
+  );
   const [erro, setErro] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
@@ -89,15 +90,12 @@ export default function Formulario() {
 
   const verificarDuplicidade = () => {
     const nomeNormalizado = form.nome.trim().toLowerCase();
-    const centroNormalizado = form.centro.trim().toLowerCase();
 
     return inscricoesExistentes.some(
-      (inscricao) =>
-        inscricao.nome.trim().toLowerCase() === nomeNormalizado &&
-        inscricao.centro.trim().toLowerCase() === centroNormalizado
+      (inscricao) => inscricao.nome.trim().toLowerCase() === nomeNormalizado
     );
   };
-  
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (confirmado) {
@@ -153,9 +151,7 @@ export default function Formulario() {
     }
 
     if (verificarDuplicidade()) {
-      setErro(
-        "Já existe uma inscrição com este nome e centro espírita. Por favor, verifique seus dados."
-      );
+      setErro("Usuário já cadastrado.");
       return;
     }
 
@@ -180,12 +176,6 @@ export default function Formulario() {
         <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">
           Formulário de Inscrição
         </h1>
-
-        {erro && (
-          <div className="p-4 mb-4 bg-red-100 text-red-700 border border-red-300 rounded-md">
-            {erro}
-          </div>
-        )}
 
         <div className="text-center mb-6">
           <p className="text-lg font-semibold text-red-600">
@@ -349,6 +339,12 @@ export default function Formulario() {
             />
           </div>
 
+          {erro && (
+          <div className="p-4 mb-4 bg-red-100 text-red-700 border border-red-300 rounded-md">
+            {erro}
+          </div>
+        )}
+
           <button
             type="submit"
             disabled={submitting}
@@ -396,6 +392,8 @@ export default function Formulario() {
                   <strong>Observação:</strong> {form.observacao}
                 </p>
               )}
+
+              <p className="mb-4 text-lg text-red-600">ATENÇÃO: Confirme seus dados antes de enviar.</p>
 
               <div className="flex justify-end gap-4 mt-6">
                 <button
