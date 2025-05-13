@@ -5,11 +5,26 @@ import Image from "next/image";
 
 const DATA_LIMITE = new Date("2025-05-29T23:59:59");
 
+type Pratica = {
+  id: string;
+  nome: string;
+  vagasRestantes: number;
+};
+
+type Inscricao = {
+  nome: string;
+  centro: string;
+  telefone: string;
+  email: string;
+  observacao: string;
+};
+
+
 export default function Formulario() {
   const router = useRouter();
   const [permitido, setPermitido] = useState(true);
-  const [praticas, setPraticas] = useState<any[]>([]);
-  const [inscricoesExistentes, setInscricoesExistentes] = useState<any[]>([]);
+  const [praticas, setPraticas] = useState<Pratica[]>([]);
+  const [inscricoesExistentes, setInscricoesExistentes] = useState<Inscricao[]>([]);
   const [erro, setErro] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
@@ -82,7 +97,8 @@ export default function Formulario() {
         inscricao.centro.trim().toLowerCase() === centroNormalizado
     );
   };
-
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (confirmado) {
       enviarFormulario();
